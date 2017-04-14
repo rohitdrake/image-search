@@ -8,13 +8,12 @@ app.listen(app.get('port'), ()=>{
 });
 
 MongoClient.connect(process.env.MONGOLAB_URI, (err, db)=>{
-  app.use('/',express.static(__dirname+'/index.html'));
   app.use((req, res, next)=>{
     req.db=db;
     console.log("request at app.use recieved!");
     next();
   });
-
+  app.use('/', express.static(__dirname+'/public'));
   app.use('/search', require('./routes/search'));
   app.use('/latest', require('./routes/history'));
 });
